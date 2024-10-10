@@ -1,4 +1,4 @@
-name: Python application
+name: Python Flask App Workflow
 
 on:
   push:
@@ -13,31 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      # Step 2: Set up Python environment
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'  # Pin to Python 3.9, compatible with your dependencies
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: make install
+    - name: Install dependencies
+      run: make install
 
-      # Step 4: Run tests or linting (optional)
-      # Add any testing or linting step here if necessary, like:
-      # - name: Run tests
-      #   run: pytest
-
-      # Step 5: Run the application
-      - name: Run the application
-        run: make run & sleep 10 # Allow time for the app to start
-
-      # Step 6: Check if the Flask app is running (optional)
-      # You can add a step to curl localhost to check if the Flask app is running:
-      # - name: Check Flask is running
-      #   run: curl http://localhost:3000
-
+    - name: Run Flask App (Sleep for 10 seconds to allow startup)
+      run: |
+        make run &
+        sleep 10
+        kill %1
